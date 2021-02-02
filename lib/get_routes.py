@@ -1,5 +1,9 @@
 import requests
-from pprint import pprint
+
+# from pprint import pprint
+
+# Url for getting Red line stop in direction index 1
+# "https://api-v3.mbta.com/stops?filter%5Bdirection_id%5D=1&filter%5Broute%5D=Red"
 
 
 def get_routes():
@@ -17,4 +21,4 @@ def get_routes():
         for route in routes
     ]
 
-    pprint(formatted_routes)
+    return formatted_routes
