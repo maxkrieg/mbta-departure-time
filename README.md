@@ -2,4 +2,20 @@
 
 Given a route, direction, and stop, provides the next departure time.
 
-Requires Pyhon 3.x
+### Installation
+
+Requires Python 3.x in order to run.
+
+1. Initialize a virtualenv, if desired: `python -m venv <virtual-env-name>`
+
+   - Activate virtualenv: `. <virtual-env-name>/bin/activate`
+
+2. Install dependencies: `pip install -r requirements.txt`
+
+### Running the application
+
+Execute python on the main entry point of the cli application, `app.py`.
+
+```bash
+$ python app.py
+```
