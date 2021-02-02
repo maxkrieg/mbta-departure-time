@@ -1,15 +1,8 @@
-from lib.routes import (
-    fetch_routes,
-    get_route_choice,
-    print_route_list,
-    print_route_direction_options,
-    get_direction_choice_index,
-)
+from lib.directions import print_route_direction_options, get_direction_choice_index
+from lib.routes import fetch_routes, get_route_choice, print_route_list
 from lib.stops import fetch_stops, print_stops_list, get_stop_choice
-
-from pprint import pprint
-
-routes = fetch_routes()
+from lib.predictions import fetch_predictions, determine_next_departure_time
+from lib.utils import exit_if_no_data
 
 print(" ")
 print("Hello and welcome to the MBTA Departure Time Application")
@@ -17,23 +10,76 @@ print(" ")
 print("To start, please select a route number from the list below: ")
 print(" ")
 
+# ROUTE
+routes = fetch_routes()
+exit_if_no_data(routes, "routes")
+
+
 print_route_list(routes)
 
 print(" ")
-
-selected_route = get_route_choice(routes)
-
-print(" ")
-pprint(selected_route)
+route = get_route_choice(routes)
 print(" ")
 
-print_route_direction_options(selected_route)
-selected_direction_index = get_direction_choice_index(selected_route["directions"])
+route_id = route["id"]
+route_name = route["name"]
 
-stops = fetch_stops(selected_route["id"], selected_direction_index)
+# DIRECTION
+print(" ")
+print(
+    "Please select a {route_name} direction from the options below:".format(
+        route_name=route_name
+    )
+)
+print(" ")
+print_route_direction_options(route)
+print(" ")
+direction_index = get_direction_choice_index(route["directions"])
+print(" ")
+
+direction_name = route["directions"][direction_index]
+
+# STOPS
+stops = fetch_stops(route["id"], direction_index)
+exit_if_no_data(stops, "stops")
+
+print(" ")
+print(
+    "Please select a stop for {route_name} trains heading {direction_name} from the list below:".format(
+        route_name=route_name, direction_name=direction_name
+    )
+)
+print(" ")
+
 print_stops_list(stops)
-selected_stop = get_stop_choice(stops)
 
 print(" ")
-pprint(selected_stop)
+stop = get_stop_choice(stops)
 print(" ")
+
+stop_id = stop["id"]
+
+# DEPARTURE TIME PREDICTION
+print("Getting the next departure...")
+
+predictions = fetch_predictions(
+    route_id=route_id,
+    stop_id=stop_id,
+    direction_id=direction_index,
+)
+exit_if_no_data(predictions, "predictions")
+
+next_departure_time = determine_next_departure_time(predictions)
+print(" ")
+
+if next_departure_time is None:
+    print("Sorry, we were unable to get a depature time")
+else:
+    print(
+        "The next {route_name} train heading {direction} from {stop} stop departs at {departure_time}".format(
+            route_name=route["name"],
+            direction=route["directions"][direction_index],
+            stop=stop["name"],
+            departure_time=next_departure_time,
+        )
+    )
