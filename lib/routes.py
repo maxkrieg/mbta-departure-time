@@ -1,9 +1,10 @@
 import requests
+from typing import List
+from lib.types import Route
 
 
-def fetch_routes():
+def fetch_routes() -> List[Route]:
     try:
-        print("Loading routes...")
         response = requests.get(
             "https://api-v3.mbta.com/routes?sort=type&filter%5Btype%5D=0%2C1"
         )
@@ -24,7 +25,7 @@ def fetch_routes():
     return formatted_routes
 
 
-def get_route_choice(routes):
+def get_route_choice(routes: List[Route]) -> Route:
     maximum_choice = len(routes)
     route_choice = input(
         "Please enter a number between 1 and {}: ".format(maximum_choice)
@@ -41,6 +42,6 @@ def get_route_choice(routes):
     return routes[route_choice_number - 1]
 
 
-def print_route_list(routes):
+def print_route_list(routes: List[Route]):
     for route_index, route_name in enumerate(routes):
         print("{}) {}".format(route_index + 1, route_name["name"]))

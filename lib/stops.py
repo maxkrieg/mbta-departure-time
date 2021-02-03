@@ -1,7 +1,9 @@
 import requests
+from typing import List
+from lib.types import Stop
 
 
-def fetch_stops(route_id, direction_index):
+def fetch_stops(route_id: str, direction_index: int) -> List[Stop]:
     try:
         response = requests.get(
             "https://api-v3.mbta.com/stops?filter%5Bdirection_id%5D={direction_id}&filter%5Broute%5D={route_id}".format(
@@ -19,12 +21,12 @@ def fetch_stops(route_id, direction_index):
     return formatted_stops
 
 
-def print_stops_list(stops):
+def print_stops_list(stops: List[Stop]):
     for stop_index, stop in enumerate(stops):
         print("{}) {}".format(stop_index + 1, stop["name"]))
 
 
-def get_stop_choice(stops):
+def get_stop_choice(stops: List[Stop]) -> Stop:
     maximum_choice = len(stops)
     stop_choice = input("Enter a number between 1 and {}: ".format(maximum_choice))
 

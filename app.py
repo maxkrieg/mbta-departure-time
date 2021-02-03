@@ -1,7 +1,7 @@
 from lib.directions import print_route_direction_options, get_direction_choice_index
 from lib.routes import fetch_routes, get_route_choice, print_route_list
 from lib.stops import fetch_stops, print_stops_list, get_stop_choice
-from lib.predictions import fetch_predictions, determine_next_departure_time
+from lib.departures import fetch_departure_times, determine_next_departure_time
 from lib.utils import exit_if_no_data
 
 print(" ")
@@ -13,7 +13,6 @@ print(" ")
 # ROUTE
 routes = fetch_routes()
 exit_if_no_data(routes, "routes")
-
 
 print_route_list(routes)
 
@@ -62,21 +61,21 @@ stop_id = stop["id"]
 # DEPARTURE TIME PREDICTION
 print("Getting the next departure...")
 
-predictions = fetch_predictions(
+departure_times = fetch_departure_times(
     route_id=route_id,
     stop_id=stop_id,
     direction_id=direction_index,
 )
-exit_if_no_data(predictions, "predictions")
+exit_if_no_data(departure_times, "departure times")
 
-next_departure_time = determine_next_departure_time(predictions)
+next_departure_time = determine_next_departure_time(departure_times)
 print(" ")
 
 if next_departure_time is None:
     print("Sorry, we were unable to get a depature time")
 else:
     print(
-        "The next {route_name} train heading {direction} from {stop} stop departs at {departure_time}".format(
+        "The next {route_name} train heading {direction} from {stop} stop departs at {departure_time} ET".format(
             route_name=route["name"],
             direction=route["directions"][direction_index],
             stop=stop["name"],

@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from typing import List
 import pytz
 
 import requests
@@ -7,7 +8,9 @@ import requests
 eastern = pytz.timezone("US/Eastern")
 
 
-def fetch_predictions(route_id, stop_id, direction_id):
+def fetch_departure_times(
+    route_id: str, stop_id: str, direction_id: int
+) -> List[datetime]:
     try:
         url = "https://api-v3.mbta.com/predictions?filter%5Bdirection_id%5D={direction_id}&filter%5Bstop%5D={stop_id}&filter%5Broute%5D={route_id}".format(
             route_id=route_id, stop_id=stop_id, direction_id=direction_id
@@ -18,10 +21,6 @@ def fetch_predictions(route_id, stop_id, direction_id):
     except Exception:
         return None
 
-    return predictions
-
-
-def determine_next_departure_time(predictions):
     departure_times = sorted(
         [
             datetime.fromisoformat(prediction["attributes"]["departure_time"])
@@ -29,6 +28,10 @@ def determine_next_departure_time(predictions):
         ]
     )
 
+    return departure_times
+
+
+def determine_next_departure_time(departure_times: List[datetime]) -> str:
     now = eastern.localize(datetime.utcnow() - timedelta(hours=5))
 
     next_dep_time = None
