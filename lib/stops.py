@@ -1,6 +1,7 @@
 import requests
 from typing import List
 from lib.types import Stop
+from lib.utils import validate_number_choice
 
 
 def fetch_stops(route_id: str, direction_index: int) -> List[Stop]:
@@ -42,12 +43,8 @@ def get_stop_choice(stops: List[Stop]) -> Stop:
     maximum_choice = len(stops)
     stop_choice = input("Enter a number between 1 and {}: ".format(maximum_choice))
 
-    try:
-        stop_choice_number = int(stop_choice)
-    except ValueError:
-        return get_stop_choice(stops)
-
-    if stop_choice_number <= 0 or stop_choice_number > maximum_choice:
+    stop_choice_number = validate_number_choice(maximum_choice, stop_choice)
+    if stop_choice_number is None:
         return get_stop_choice(stops)
 
     return stops[stop_choice_number - 1]

@@ -1,6 +1,7 @@
 import requests
 from typing import List
 from lib.types import Route
+from lib.utils import validate_number_choice
 
 
 def fetch_routes() -> List[Route]:
@@ -39,12 +40,8 @@ def get_route_choice(routes: List[Route]) -> Route:
         "Please enter a number between 1 and {}: ".format(maximum_choice)
     )
 
-    try:
-        route_choice_number = int(route_choice)
-    except ValueError:
-        return get_route_choice(routes)
-
-    if route_choice_number <= 0 or route_choice_number > maximum_choice:
+    route_choice_number = validate_number_choice(maximum_choice, route_choice)
+    if route_choice_number is None:
         return get_route_choice(routes)
 
     return routes[route_choice_number - 1]
