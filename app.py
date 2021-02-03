@@ -44,7 +44,7 @@ exit_if_no_data(stops, "stops")
 
 print(" ")
 print(
-    "Please select a stop for {route_name} trains heading {direction_name} from the list below:".format(
+    "Please select a departure station for {route_name} trains heading {direction_name} from the list below:".format(
         route_name=route_name, direction_name=direction_name
     )
 )
@@ -75,7 +75,7 @@ if next_departure_time is None:
     print("Sorry, we were unable to get a depature time")
 else:
     print(
-        "The next {route_name} train heading {direction} from {stop} stop departs at {departure_time} ET".format(
+        "The next {route_name} train heading {direction} from {stop} departs at {departure_time} ET".format(
             route_name=route["name"],
             direction=route["directions"][direction_index],
             stop=stop["name"],
