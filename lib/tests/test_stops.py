@@ -1,6 +1,6 @@
+import requests
 from lib.stops import fetch_stops, get_stop_choice
-
-mock_stops = [{"id": "foo", "name": "bar"}, {"id": "cats", "name": "dogs"}]
+from .mocks import mock_stops, mock_get_error
 
 
 def test_fetch_stops_success():
@@ -20,8 +20,10 @@ def test_fetch_stops_success():
     assert no_errors
 
 
-def test_fetch_stops_error():
-    pass
+def test_fetch_stops_error(monkeypatch):
+    monkeypatch.setattr(requests, "get", mock_get_error)
+    result = fetch_stops(route_id="Red", direction_index=0)
+    assert result is None
 
 
 def test_get_stop_choice(monkeypatch):

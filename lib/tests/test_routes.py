@@ -1,19 +1,6 @@
+import requests
 from lib.routes import fetch_routes, get_route_choice
-
-mock_routes = [
-    {
-        "directions": ["West", "East"],
-        "id": "Green-B",
-        "name": "Green Line B",
-        "type": "light",
-    },
-    {
-        "directions": ["West", "East"],
-        "id": "Green-C",
-        "name": "Green Line C",
-        "type": "light",
-    },
-]
+from .mocks import mock_get_error, mock_routes
 
 
 def test_fetch_routes_success():
@@ -35,8 +22,10 @@ def test_fetch_routes_success():
     assert no_errors
 
 
-def test_fetch_routes_api_error():
-    pass
+def test_fetch_routes_error(monkeypatch):
+    monkeypatch.setattr(requests, "get", mock_get_error)
+    result = fetch_routes()
+    assert result is None
 
 
 def test_get_route_choice(monkeypatch):
