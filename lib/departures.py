@@ -1,9 +1,7 @@
+import requests
+import pytz
 from datetime import datetime, timedelta
 from typing import List
-import pytz
-
-import requests
-
 
 eastern = pytz.timezone("US/Eastern")
 
@@ -25,14 +23,15 @@ def fetch_departure_times(
     except Exception:
         return None
 
-    departure_times = sorted(
-        [
-            datetime.fromisoformat(prediction["attributes"]["departure_time"])
-            for prediction in predictions
-        ]
-    )
+    departure_times = []
+    for prediction in predictions:
+        iso_departure_time = prediction["attributes"]["departure_time"]
+        if iso_departure_time is not None:
+            departure_times.append(datetime.fromisoformat(iso_departure_time))
 
-    return departure_times
+    departure_times_sorted = sorted(departure_times)
+
+    return departure_times_sorted
 
 
 def determine_next_departure_time(departure_times: List[datetime]) -> str:
