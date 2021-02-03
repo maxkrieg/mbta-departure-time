@@ -1,7 +1,7 @@
+from lib.departures import fetch_departure_times, determine_next_departure_time
 from lib.directions import print_route_direction_options, get_direction_choice_index
 from lib.routes import fetch_routes, get_route_choice, print_route_list
 from lib.stops import fetch_stops, print_stops_list, get_stop_choice
-from lib.departures import fetch_departure_times, determine_next_departure_time
 from lib.utils import exit_if_no_data
 
 print(" ")
