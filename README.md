@@ -1,4 +1,4 @@
-# MBTA Deparature Time
+# MBTA Deparature Time CLI Application
 
 Given a route, direction, and stop, provides the next departure time.
 
@@ -7,14 +7,12 @@ Given a route, direction, and stop, provides the next departure time.
 Requires Python 3.x in order to run.
 
 1. Initialize a virtualenv, if desired: `python -m venv <virtual-env-name>`
-
-   - Activate virtualenv: `. <virtual-env-name>/bin/activate`
-
-2. Install dependencies: `pip install -r requirements.txt`
+2. Activate virtualenv: `. <virtual-env-name>/bin/activate`
+3. Install dependencies: `pip install -r requirements.txt`
 
 #### Running the application
 
-Execute python on the main entry point of the cli application, `app.py`.
+Execute python from the root of the project on the cli entry point: `app.py`:
 
 ```bash
 $ python app.py
@@ -30,8 +28,8 @@ From project root:
 $ pytest
 ```
 
-##### TODO
+#### TODO
 
-- Add docstrings
-- Add Pyhints
+- Improve docstrings
 - Add more non-happy path test cases
+- Use a better cli library like PyInquirer

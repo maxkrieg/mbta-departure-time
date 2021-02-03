@@ -11,6 +11,10 @@ eastern = pytz.timezone("US/Eastern")
 def fetch_departure_times(
     route_id: str, stop_id: str, direction_id: int
 ) -> List[datetime]:
+    """
+    Fetches departure times for a given, route, stop, and direction from the MBTA API.
+    """
+
     try:
         url = "https://api-v3.mbta.com/predictions?filter%5Bdirection_id%5D={direction_id}&filter%5Bstop%5D={stop_id}&filter%5Broute%5D={route_id}".format(
             route_id=route_id, stop_id=stop_id, direction_id=direction_id
@@ -32,6 +36,10 @@ def fetch_departure_times(
 
 
 def determine_next_departure_time(departure_times: List[datetime]) -> str:
+    """
+    Given a list of upcoming departure times, determines what the next departure time is.
+    """
+
     now = eastern.localize(datetime.utcnow() - timedelta(hours=5))
 
     next_dep_time = None

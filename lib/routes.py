@@ -4,6 +4,10 @@ from lib.types import Route
 
 
 def fetch_routes() -> List[Route]:
+    """
+    Fetches all light and heavy routes from the MBTA API.
+    """
+
     try:
         response = requests.get(
             "https://api-v3.mbta.com/routes?sort=type&filter%5Btype%5D=0%2C1"
@@ -26,6 +30,10 @@ def fetch_routes() -> List[Route]:
 
 
 def get_route_choice(routes: List[Route]) -> Route:
+    """
+    Prompts the user to choose a Route from the list of routes.
+    """
+
     maximum_choice = len(routes)
     route_choice = input(
         "Please enter a number between 1 and {}: ".format(maximum_choice)
