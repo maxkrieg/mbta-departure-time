@@ -31,5 +31,8 @@ $ pytest
 #### TODO
 
 - Improve docstrings
-- Add more non-happy path test cases
+- Add more tests
+  - Achieve higher coverage
+  - Test more non-happy path test cases
+  - Test different MBTA API responseses
 - Use a better cli library like PyInquirer
